@@ -1,4 +1,4 @@
-package routes
+package routesv1
 
 import (
 	"io/ioutil"
@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Post displays the default page via POST
-func Post(c *gin.Context) {
+// Person is a sample route for POSTing data
+func Person(c *gin.Context) {
 	body := c.Request.Body
 	value, err := ioutil.ReadAll(body)
 	if err != nil {
@@ -40,7 +40,7 @@ func Post(c *gin.Context) {
 		"status":   200,
 		"protocol": "POST",
 		"path":     "/",
-		"message":  "default route via post",
+		"message":  "person post route",
 		"value":    person,
 	})
 }

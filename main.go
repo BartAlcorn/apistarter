@@ -1,22 +1,42 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"time"
 
 	"github.com/bartalcorn/apistarter/routes"
+	"github.com/bartalcorn/apistarter/routesv1"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
+	// gin.DisableConsoleColor()
+
 	router := gin.Default()
-	router.GET("/", routes.DefaultPage)
-	router.GET("/query", routes.QueryStrings)
-	router.GET("/path/:name/:age", routes.PathStrings)
-	router.POST("/", routes.PostHomePage)
-	router.PUT("/", routes.PostHomePage)
-	router.PATCH("/", routes.PostHomePage)
-	router.DELETE("/:name", routes.PathStrings)
+	// router.Use(gin.Logger())
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
 
-	router.Run() // localhost:8080
+	// routes
+	router.Use(gin.Recovery())
+	router = routes.Router(router)
+	routesv1.Router(router)
 
+	// listener
+	err := router.Run() // localhost:8080
+	if err != nil {
+		fmt.Print("Oops", err)
+	}
 }
