@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Router for v1 routes
 func Router(router *gin.Engine) {
 	// /v1/ level routes
 	v1 := router.Group("/v1")

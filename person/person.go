@@ -8,6 +8,7 @@ type Person struct {
 	Age  int    `json:"age"`
 }
 
+// ValidatePerson ...
 func ValidatePerson(value []byte) (valid bool, errs []string, person Person) {
 	err := json.Unmarshal(value, &person)
 	if err != nil {
