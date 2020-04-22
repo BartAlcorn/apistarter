@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/bartalcorn/apistarter/responses"
 	"github.com/gin-gonic/gin"
 )
 
@@ -8,11 +9,8 @@ import (
 func PathStrings(c *gin.Context) {
 	name := c.Param("name")
 	age := c.Param("age")
-	c.JSON(200, gin.H{
-		"protocol": "GET",
-		"path":    "/path/:name/:age",
-		"message": "path strings via get",
-		"name":    name,
-		"age":     age,
+	responses.RespondJSON(c, 200, gin.H{
+		"name": name,
+		"age":  age,
 	})
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/bartalcorn/apistarter/middleware"
 	"github.com/bartalcorn/apistarter/routes"
 	"github.com/bartalcorn/apistarter/routesv1"
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,8 @@ func main() {
 			param.ErrorMessage,
 		)
 	}))
+
+	router.Use(middleware.TokenAuth)
 
 	// routes
 	router.Use(gin.Recovery())
