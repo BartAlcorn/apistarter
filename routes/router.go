@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Router is for root level routes
 func Router(router *gin.Engine) *gin.Engine {
 	// root level routes
 	router.GET("/", Default)
