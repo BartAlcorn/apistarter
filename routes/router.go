@@ -1,19 +1,18 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Router is for root level routes
-func Router(router *gin.Engine) *gin.Engine {
+func Router(router fiber.Router) {
 	// root level routes
-	router.GET("/", Default)
-	router.GET("/path/:name/:age", PathStrings)
-	router.GET("/query", QueryStrings)
-	router.PATCH("/", Post)
-	router.POST("/", Post)
-	router.PUT("/", Post)
-	router.DELETE("/:name", PathStrings)
+	router.Get("/", Default())
+	router.Get("/path/:name/:age", PathStrings())
+	router.Get("/query", QueryStrings())
+	router.Patch("/", Post())
+	router.Post("/", Post())
+	router.Put("/", Post())
+	router.Delete("/:name", PathStrings())
 
-	return router
 }

@@ -3,10 +3,7 @@ package routes
 import (
 	// "fmt"
 
-	"fmt"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
 var html = `
@@ -21,11 +18,8 @@ var html = `
 </html>
 `
 
-// Default displays the default page via GET
-func Default(ctx *gin.Context) {
-	ctx.Writer.WriteHeader(http.StatusOK)
-	_, err := ctx.Writer.Write([]byte(html))
-	if err != nil {
-		fmt.Println("Writer Error", err)
+func Default() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		return c.Format([]byte(html))
 	}
 }

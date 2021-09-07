@@ -2,17 +2,12 @@ package routesv1
 
 import (
 	"github.com/bartalcorn/apistarter/routes"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-// Router for v1 routes
-func Router(router *gin.Engine) {
-	// /v1/ level routes
-	v1 := router.Group("/v1")
-	{
-		v1.GET("/", routes.Default)
-		v1.GET("/path/:name/:age", routes.PathStrings)
-		v1.GET("/query", routes.QueryStrings)
-		v1.POST("/person", Person)
-	}
+func DefaultRouter(app fiber.Router) {
+	app.Get("/", routes.Default())
+	app.Get("/path/:name/:age", routes.PathStrings())
+	app.Get("/query", routes.QueryStrings())
+	app.Post("/person", Person())
 }

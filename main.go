@@ -1,45 +1,28 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"log"
 
-	"github.com/bartalcorn/apistarter/middleware"
-	"github.com/bartalcorn/apistarter/routes"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+
 	"github.com/bartalcorn/apistarter/routesv1"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	app := fiber.New()
 
-	// gin.DisableConsoleColor()
+	// Middleware
+	app.Use(cors.New())
+	app.Use(recover.New())
 
-	router := gin.Default()
-	// router.Use(gin.Logger())
-	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.ClientIP,
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	}))
+	// app.Get("/", func(c *fiber.Ctx) error {
+	// 	return c.SendString("Hello, World 👋!")
+	// })
 
-	router.Use(middleware.TokenAuth)
+	routesv1.DefaultRouter(app)
 
-	// routes
-	router.Use(gin.Recovery())
-	router = routes.Router(router)
-	routesv1.Router(router)
+	log.Fatal(app.Listen(":3000"))
 
-	// listener
-	err := router.Run() // localhost:8080
-	if err != nil {
-		fmt.Print("Oops", err)
-	}
 }
